@@ -129,7 +129,7 @@ class ZipWrap(object):
         path = os.path.join(self.src_dir, path)
         if os.path.exists(path):
             if os.path.isfile(path):
-                f = open(fpath, 'rb')
+                f = open(path, 'rb')
                 content = f.read()
                 f.close()
                 return content
