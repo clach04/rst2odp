@@ -9,7 +9,10 @@ Licensed under Apache License, Version 2.0 (current)
 
 import copy
 import cStringIO as sio
-import xml.etree.ElementTree as et
+try:
+    import xml.etree.ElementTree as et
+except ImportError:
+    from elementtree import ElementTree as et
 from xml.dom import minidom
 import os
 import sys
