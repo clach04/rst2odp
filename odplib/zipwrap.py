@@ -96,6 +96,7 @@ class ZipWrap(object):
             else:
                 content = zin.read(name)
                 self.touch(name, content)
+        zin.close()
 
 
     def load_dir(self, path):
@@ -214,7 +215,13 @@ class ZipWrap(object):
 
         for f in dirs_n_files["files"]:
             new_path = f[len(self.src_dir):]
+            new_path = os.path.normpath(new_path)
+            if new_path.startswith(os.path.sep):
+                # strip leading path slash
+                # otherwise causes problems under Python 2.4 and zip files
+                new_path = new_path[1:]
             zout.write(f, new_path)
+        zout.close()
 
 
 def _test():
