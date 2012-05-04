@@ -4,6 +4,7 @@
 # Licensed under Apache License, Version 2.0 (current)
 import sys
 import os
+import warnings
 
 import docutils
 from docutils import io, writers, nodes
@@ -451,6 +452,11 @@ class ODPTranslator(nodes.GenericNodeVisitor):
         pass
     def depart_comment(self, node):
         pass
+
+    def visit_raw(self, node):
+        raw_fmt = node.get('format', '')
+        warnings.warn('raw block of type %r found, ignoring' % raw_fmt)
+        raise nodes.SkipNode
 
     visit_topic = _dumb_visit
     depart_topic = _dumb_depart
