@@ -196,7 +196,9 @@ class Preso(object):
         if style_file:
             self.add_otp_style(zip_odp, style_file)
         zip_odp.zipit(filename)
-        data = open(filename).read()
+        f = open(filename, 'rb')
+        data = f.read()
+        f.close()
         os.close(fd)
         os.remove(filename)
         return data
@@ -297,11 +299,16 @@ class Preso(object):
 
     def settings_xml(self):
         filename = os.path.join(DATA_DIR, 'settings.xml')
-        return open(filename).read()
+        f = open(filename, 'rb')
+        data = f.read()
+        f.close()
+        return data
 
     def styles_xml(self):
         filename = os.path.join(DATA_DIR, 'styles.xml')
-        data = open(filename).read()
+        f = open(filename, 'rb')
+        data = f.read()
+        f.close()
         data = data.decode('utf-8')
         if NORMAL_FONT != 'Arial':
             data = data.replace(u'fo:font-family="Arial"',
@@ -485,7 +492,10 @@ class Picture(object):
 
 
     def get_data(self):
-        return open(self.filepath).read()
+        f = open(filename, 'rb')
+        data = f.read()
+        f.close()
+        return data
 
 class XMLSlide(object):
     PREFIX = 'IMPORT%d-%s'
@@ -1406,7 +1416,10 @@ http://books.evc-cit.info/odbook/ch03.html#bulleted-numbered-lists-section
 
     def default_styles(self):
         filename =  os.path.join(DATA_DIR, self.style_file)
-        return open(filename).read()
+        f = open(filename, 'rb')
+        data = f.read()
+        f.close()
+        return data
 
 class NumberList(OutlineList):
     def __init__(self, slide):

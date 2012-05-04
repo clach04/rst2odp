@@ -107,7 +107,9 @@ class ZipWrap(object):
                 fpath = os.path.join(dirname, name)
                 new_path = fpath[len(path):]
                 if os.path.isfile(fpath):
-                    content = open(fpath, 'rb').read()
+                    f = open(fpath, 'rb')
+                    content = f.read()
+                    f.close()
                     self.touch(new_path, content)
                 else:
                     self.mkdir(new_path)
@@ -126,7 +128,10 @@ class ZipWrap(object):
         path = os.path.join(self.src_dir, path)
         if os.path.exists(path):
             if os.path.isfile(path):
-                return open(path, 'rb').read()
+                f = open(fpath, 'rb')
+                content = f.read()
+                f.close()
+                return content
             elif os.path.isdir(path):
                 return os.listdir(path)
         else:
