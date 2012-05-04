@@ -7,6 +7,7 @@ Copyright 2008-2009 Matt Harrison
 Licensed under Apache License, Version 2.0 (current)
 """
 
+import warnings
 import copy
 import cStringIO as sio
 try:
@@ -21,10 +22,9 @@ import tempfile
 try:
     import pygments
     from pygments import formatter, lexers
-    pygmentsAvail = True
 except:
     print 'Could not import pygments code highlighting will not work'
-    pygmentsAvail = False
+    pygments = None
 import zipwrap
 import Image
 import imagescale
@@ -628,8 +628,14 @@ class Slide(object):
             self.add_text_frame()
         style = ParagraphStyle(**{'fo:text-align':'start'})
         self.push_style(style)
-        output = pygments.highlight(code, lexers.get_lexer_by_name(language, stripall=True),
+        if pygments:
+            pygments.highlight(code, lexers.get_lexer_by_name(language, stripall=True),
                                     OdtCodeFormatter(self.cur_element, self._preso))
+        else:
+            # FIXME pick one!
+            warnings.warn('code block found and pygments not available, code will be MISSING from ODP')
+            raise NotImplementedError('code block found and pygments not available')
+            # TODO use a regular docutils formatted to emit code?
         self.pop_style()
         self.pop_node()
 
@@ -1262,7 +1268,7 @@ class ParagraphStyle(TextStyle):
     PREFIX = 'P%d'
 
 
-if pygmentsAvail:
+if pygments:
 
     class OdtCodeFormatter(formatter.Formatter):
         def __init__(self, writable, preso):
