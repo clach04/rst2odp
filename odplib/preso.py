@@ -492,7 +492,7 @@ class Picture(object):
 
 
     def get_data(self):
-        f = open(filename, 'rb')
+        f = open(self.filepath, 'rb')
         data = f.read()
         f.close()
         return data
