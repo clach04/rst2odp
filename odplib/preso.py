@@ -26,8 +26,13 @@ except:
     print 'Could not import pygments code highlighting will not work'
     pygments = None
 import zipwrap
-import Image
-import imagescale
+try:
+    import imagescale
+    Image = imagescale.Image
+except ImportError:
+    print 'Could not import PIL, images will not work'
+    imagescale = None
+    Image = None
 
 DOC_CONTENT_ATTRIB = {
     'office:version': '1.0',
